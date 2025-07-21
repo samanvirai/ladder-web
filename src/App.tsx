@@ -11,6 +11,7 @@ interface AccountData {
   id: string;
   name: string;
   amount: number;
+  icon: string;
   type: 'asset' | 'liability';
 }
 
@@ -295,7 +296,26 @@ function App() {
   const [newAccountName, setNewAccountName] = useState('');
   const [newAccountAmount, setNewAccountAmount] = useState('');
   const [newAccountType, setNewAccountType] = useState<'asset' | 'liability'>('asset');
+  const [selectedAccountType, setSelectedAccountType] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
+ 
+  // Account type options for the modal
+  const accountTypeOptions = [
+    { id: 'account', name: 'Checking & Savings', icon: '🏦', category: 'asset' },
+    { id: 'investments', name: 'Investments', icon: '📈', category: 'asset' },
+    { id: 'retirement', name: '401Ks & IRAs', icon: '🏝️', category: 'asset' },
+    { id: 'crypto', name: 'Crypto', icon: '₿', category: 'asset' },
+    { id: 'equity', name: 'Equity', icon: '📊', category: 'asset' },
+    { id: 'real_estate', name: 'Real Estate', icon: '🏠', category: 'asset' },
+    { id: 'valuables', name: 'Valuables', icon: '💎', category: 'asset' },
+    { id: 'other_assets', name: 'Other Assets', icon: '📦', category: 'asset' },
+    { id: 'credit_card', name: 'Credit Card', icon: '💳', category: 'liability' },
+    { id: 'student_loan', name: 'Student Loans', icon: '🎓', category: 'liability' },
+    { id: 'mortgage', name: 'Mortgage', icon: '🏡', category: 'liability' },
+    { id: 'car_loan', name: 'Car Loan', icon: '🚙', category: 'liability' },
+    { id: 'personal_loan', name: 'Personal Loan', icon: '📝', category: 'liability' },
+    { id: 'other_liabilities', name: 'Other Liabilities', icon: '📦', category: 'liability' }
+  ];
   const [errors, setErrors] = useState<{age?: string, zip?: string}>({});
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showEmailModal, setShowEmailModal] = useState(false);
@@ -385,16 +405,19 @@ function App() {
   };
 
   const handleAddAccount = () => {
-    if (newAccountName && newAccountAmount) {
+    if (newAccountName && newAccountAmount && selectedAccountType) {
+      const selectedOption = accountTypeOptions.find(opt => opt.id === selectedAccountType);
       const newAccount: AccountData = {
         id: Date.now().toString(),
         name: newAccountName,
         amount: parseFloat(newAccountAmount) || 0,
-        type: newAccountType
+        icon: selectedOption?.icon || '',
+        type: selectedOption?.category as 'asset' | 'liability'
       };
       setAccounts(prev => [...prev, newAccount]);
       setNewAccountName('');
       setNewAccountAmount('');
+      setSelectedAccountType('');
       setShowModal(false);
     }
   };
@@ -522,25 +545,16 @@ function App() {
             onClick={() => setCurrentScreen('landing')}
             className="absolute top-8 left-6 text-brand-white text-2xl"
           >
-            ←
+           <img src="/assets/arrowLeftWhite.png" alt="Back" className="w-[30px] h-[30px]" />
           </button>
-          
-          <h1 className="text-[23px] font-bold text-center mb-6 text-brand-white font-kollektif">
-            Where does your money stand?
-          </h1>
-          
-          {/* Net Worth Display */}
-          <div className="text-center mb-2">
-            <div className="text-[40px] mb-4">${netWorth.toLocaleString()}</div>
-            <img 
+
+          {/* User Info Inputs */}
+          <img 
               src="/assets/youIcon.svg" 
               alt="You" 
               className="w-[30px] h-[30px] mx-auto"
             />
-          </div>
-
-          {/* User Info Inputs */}
-          <div className="flex space-x-4 mb-2 justify-center">
+          <div className="flex space-x-4 mb-6 justify-center">
             <input
               type="text"
               placeholder="Name"
@@ -572,102 +586,124 @@ function App() {
             </div>
           )}
 
-          {/* Assets Section */}
-            <div className="mb-6 max-w-[400px] mx-auto">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-[16px] text-brand-white">Assets ${accounts.filter(a => a.type === 'asset').reduce((sum, a) => sum + a.amount, 0).toLocaleString()}</h3>
-                              <button 
-                  onClick={() => {
-                    setNewAccountType('asset');
-                    setShowModal(true);
-                  }}
-                  className="w-8 h-8 bg-brand-white rounded-full flex items-center justify-center border-2 border-brand-black"
+          {/* Net Worth Display */}
+          <div className="text-center mb-2">
+            <div className="text-[40px] mb-6">${netWorth.toLocaleString()}</div>
+          </div>
+
+          {/* Combined Assets & Liabilities Table */}
+          <div className="mb-8 max-w-[400px] mx-auto">
+            <div className="border-2 border-brand-black rounded-[20px] overflow-hidden">
+              <div className="max-h-[300px] overflow-y-auto divide-y divide-black/10">
+                {accounts.length === 0 && (
+                  <div className="text-center text-brand-black text-xs py-6">No accounts added yet</div>
+                )}
+                {accounts.map(account => (
+                  <div key={account.id} className="flex items-center justify-between px-5 py-5 text-[14px]">
+                    <div className="flex items-center text-brand-black">
+                      <span className="mr-2">{account.icon}</span>
+                      <span>{account.name}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span>{account.type === 'liability' ? '-' : ''}${account.amount.toLocaleString()}</span>
+                      {/* <button 
+                        onClick={() => handleRemoveAccount(account.id)}
+                        className="text-brand-black ml-2"
+                        title="Remove"
+                      >
+                        ×
+                      </button> */}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Add Row */}
+              <div className="flex items-center justify-between px-4 py-3 border-t border-black">
+                <span className="text-brand-black font-bold text-[16px]">Add</span>
+                <button 
+                  onClick={() => setShowModal(true)}
+                  className="w-8 h-8 text-brand-black font-bold text-[20px]"
+                  title="Add Account"
                 >
                   <span className="text-brand-black text-lg">+</span>
                 </button>
-            </div>
-            <div className="space-y-1">
-              {accounts.filter(a => a.type === 'asset').map(account => (
-                <div key={account.id} className="flex text-brand-white text-[10px] items-center justify-between px-4">
-                  <span>{account.name} ${account.amount.toLocaleString()}</span>
-                  <button 
-                    onClick={() => handleRemoveAccount(account.id)}
-                    className="text-white opacity-70"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Liabilities Section */}
-                      <div className="mb-8 max-w-[400px] mx-auto">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-[16px] text-brand-white">Liabilities ${accounts.filter(a => a.type === 'liability').reduce((sum, a) => sum + a.amount, 0).toLocaleString()}</h3>
-                              <button 
-                  onClick={() => {
-                    setNewAccountType('liability');
-                    setShowModal(true);
-                  }}
-                  className="w-8 h-8 bg-black rounded-full flex items-center justify-center border-2 border-brand-white"
-                >
-                  <span className="text-white text-lg">+</span>
-                </button>
-            </div>
-            <div className="space-y-1">
-              {accounts.filter(a => a.type === 'liability').map(account => (
-                <div key={account.id} className="flex text-brand-white text-[10px] items-center justify-between px-4">
-                  <span>{account.name} ${account.amount.toLocaleString()}</span>
-                  <button 
-                    onClick={() => handleRemoveAccount(account.id)}
-                    className="text-white opacity-70"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
+              </div>
             </div>
           </div>
 
           {/* Add Account Modal */}
           {showModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-              <div className="bg-white rounded-lg p-6 w-full max-w-sm">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  Add {newAccountType === 'asset' ? 'Asset' : 'Liability'}
-                </h3>
-                <input
-                  type="text"
-                  placeholder="Account name"
-                  value={newAccountName}
-                  onChange={(e) => setNewAccountName(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 mb-3 focus:outline-none focus:ring-2 focus:ring-brand-orange"
-                />
-                <input
-                  type="number"
-                  placeholder="Amount"
-                  value={newAccountAmount}
-                  onChange={(e) => setNewAccountAmount(e.target.value)}
-                  className="w-full border border-gray-300 rounded-md px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-brand-orange"
-                />
-                <div className="flex space-x-2">
-                  <button
-                    onClick={handleAddAccount}
-                    className="flex-1 bg-brand-orange text-white py-2 rounded-md font-semibold"
-                  >
-                    Add
-                  </button>
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+              <div className="bg-white rounded-xl p-6 w-full max-w-sm mx-auto border-2 border-brand-black flex flex-col justify-center">
+                <div className="relative mb-4 pt-4">
                   <button
                     onClick={() => {
                       setNewAccountName('');
                       setNewAccountAmount('');
+                      setSelectedAccountType('');
                       setShowModal(false);
                     }}
-                    className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-md font-semibold"
+                    className="absolute right-0 top-0 text-brand-black px-2 z-10 text-[14px]"
+                    style={{ lineHeight: 1 }}
                   >
-                    Cancel
+                    ✕
                   </button>
+                  <h3 className="text-[20px] text-brand-black w-full text-center">Add Source</h3>
+                </div>
+                
+                {/* Type Selection */}
+                <div className="mb-4">
+                  <h3 className="text-[14px] text-brand-black w-full text-center mb-2">Type</h3>
+                  <div className="flex overflow-x-auto rounded-md space-x-2">
+                    {accountTypeOptions.map(option => (
+                      <div
+                        key={option.id}
+                        onClick={() => setSelectedAccountType(option.id)}
+                        className={`flex flex-col items-center justify-center min-w-[80px] px-3 py-2 cursor-pointer rounded-md hover:bg-gray-50 ${
+                          selectedAccountType === option.id ? 'bg-brand-orange bg-opacity-10' : ''
+                        }`}
+                      >
+                        <span className="text-2xl mb-1">{option.icon}</span>
+                        <span className="text-xs text-gray-900 text-center leading-tight">{option.name}</span>
+                        {selectedAccountType === option.id && (
+                          <span className="text-brand-orange text-xs mt-1">✓</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Nickname Field */}
+                <div className="mb-6 text-center">
+                  <input
+                    type="text"
+                    placeholder="Nickname"
+                    value={newAccountName}
+                    onChange={(e) => setNewAccountName(e.target.value)}
+                    className="w-40 border-b-2 border-brand-black px-3 py-2 text-brand-black text-center placeholder-brand-black text-[14px]"
+                  />
+                </div>
+                
+                {/* Amount Field */}
+                <div className="mb-8 text-center">
+                  <input
+                    type="number"
+                    placeholder="Amount"
+                    value={newAccountAmount}
+                    onChange={(e) => setNewAccountAmount(e.target.value)}
+                    className="w-40 border-b-2 border-brand-black px-3 py-2 text-brand-black text-center placeholder-brand-black text-[14px]"
+                  />
+                </div>
+                
+                {/* Add Button */}
+                <div className="text-center">
+                <button
+                  onClick={handleAddAccount}
+                  disabled={!newAccountName || !newAccountAmount || !selectedAccountType}
+                  className="bg-brand-white text-brand-black py-[2px] px-8 rounded-[24px] border-[3px] border-brand-black disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100"
+                >
+                  Add
+                </button>
                 </div>
               </div>
             </div>
@@ -679,7 +715,7 @@ function App() {
                   setCurrentScreen('results');
                 }
               }}
-              className="max-w-[300px] w-full bg-brand-white text-brand-black py-2 px-10 rounded-[24px] border-[3px] border-brand-black hover:bg-gray-100 flex items-center justify-center mx-auto"
+              className="max-w-[300px] text-[20px] w-full bg-brand-white text-brand-black py-2 px-10 rounded-[24px] border-[3px] border-brand-black hover:bg-gray-100 flex items-center justify-center mx-auto"
             >
               See how I compare
             </button>
@@ -694,11 +730,11 @@ function App() {
       <div className="px-6 pt-[72px]">
         {/* Back Arrow */}
         <button 
-          onClick={() => setCurrentScreen('input')}
-          className="absolute top-8 left-6 text-white text-2xl"
-        >
-          ←
-        </button>
+            onClick={() => setCurrentScreen('landing')}
+            className="absolute top-8 left-6 text-brand-white text-2xl"
+          >
+           <img src="/assets/arrowLeftWhite.png" alt="Back" className="w-[30px] h-[30px]" />
+          </button>
         
         <h1 className="text-[23px] font-bold text-center mb-6 text-brand-white font-kollektif">
           {userData.name ? `${userData.name}, you are...` : 'You are...'}
