@@ -492,7 +492,7 @@ function App() {
             <img 
               src="/assets/landingPageGraphic.svg" 
               alt="Net worth comparison chart" 
-              className="w-full max-w-sm"
+              className="w-full max-w-sm mx-auto"
             />
           </div>
           
@@ -573,7 +573,7 @@ function App() {
           )}
 
           {/* Assets Section */}
-            <div className="mb-6">
+            <div className="mb-6 max-w-[400px] mx-auto">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-[16px] text-brand-white">Assets ${accounts.filter(a => a.type === 'asset').reduce((sum, a) => sum + a.amount, 0).toLocaleString()}</h3>
                               <button 
@@ -602,7 +602,7 @@ function App() {
           </div>
 
           {/* Liabilities Section */}
-                      <div className="mb-8">
+                      <div className="mb-8 max-w-[400px] mx-auto">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-[16px] text-brand-white">Liabilities ${accounts.filter(a => a.type === 'liability').reduce((sum, a) => sum + a.amount, 0).toLocaleString()}</h3>
                               <button 
@@ -743,7 +743,7 @@ function App() {
             >
               {/* First Chart - Standard deviation comparison */}
               <div className="w-full flex-shrink-0 px-6">
-                <div className="bg-white bg-opacity-10 rounded-lg p-4">
+                <div className="bg-white bg-opacity-10 rounded-lg p-4 max-w-[400px] mx-auto">
                   <div className="text-center mb-4">
                     <div className="text-sm font-semibold text-brand-white">Net Worth Distribution</div>
                     <div className="text-xs text-brand-white opacity-80">Your Age Group</div>
@@ -831,7 +831,7 @@ function App() {
 
               {/* Second Chart - Geographic comparison */}
               <div className="w-full flex-shrink-0 px-6">
-                <div className="bg-white bg-opacity-10 rounded-lg p-4">
+                <div className="bg-white bg-opacity-10 rounded-lg p-4 max-w-[400px] mx-auto">
                   <div className="text-center mb-4">
                     <div className="text-sm font-semibold text-brand-white">Geographic Comparison</div>
                     <div className="text-xs text-brand-white opacity-80">Your Local Area</div>
