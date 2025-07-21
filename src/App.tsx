@@ -508,13 +508,13 @@ function App() {
           {/* Landing Page Graphic */}
           <div className="flex justify-center mb-12 flex-col">
             <img 
-              src="/assets/you.svg" 
+              src="/assets/you.png" 
               alt="You" 
               className="block mx-auto h-auto w-[30px] max-w-full animate-bounce"
             />
-            <div className="w-full max-w-[375px] mx-auto overflow-x-hidden">
+            <div className="w-[335px] h-[336px]">
               <img 
-                src="/assets/landingPageGraphic.svg" 
+                src="/assets/landingPageGraphic.png" 
                 alt="Net worth comparison chart" 
                 className="block mx-auto w-full h-auto max-w-full"
               />
@@ -552,7 +552,7 @@ function App() {
 
           {/* User Info Inputs */}
           <img 
-              src="/assets/youIcon.svg" 
+              src="/assets/youIcon.png" 
               alt="You" 
               className="block mx-auto h-auto w-[30px] max-w-ful"
             />
