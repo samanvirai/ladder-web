@@ -512,7 +512,7 @@ function App() {
               alt="You" 
               className="block mx-auto h-auto w-[30px] max-w-full animate-bounce"
             />
-            <div className="w-[335px] h-[336px]">
+            <div className="w-[335px] h-[336px] mx-auto">
               <img 
                 src="/assets/landingPageGraphic.png" 
                 alt="Net worth comparison chart" 
