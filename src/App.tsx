@@ -487,12 +487,12 @@ function App() {
             <img 
               src="/assets/you.svg" 
               alt="You" 
-              className="w-[30px] h-[50px] mx-auto animate-bounce"
+              className="block mx-auto h-auto w-[30px] max-w-[60px] animate-bounce"
             />
             <img 
               src="/assets/landingPageGraphic.svg" 
               alt="Net worth comparison chart" 
-              className="w-full max-w-sm mx-auto"
+              className="block mx-auto h-auto max-w-[320px] sm:max-w-sm"
             />
           </div>
           
