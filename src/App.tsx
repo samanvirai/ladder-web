@@ -500,8 +500,8 @@ function App() {
   if (currentScreen === 'landing') {
     return (
       <div className="min-h-screen bg-brand-orange">
-        <div className="px-6 pt-[72px]">
-          <h1 className="text-[23px] font-bold text-center mb-6 text-brand-white font-kollektif">
+        <div className="px-6 pt-12">
+          <h1 className="text-[23px] font-bold text-center mb-10 text-brand-white font-kollektif">
             Where does your money stand?
           </h1>
           
