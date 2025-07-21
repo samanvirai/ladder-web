@@ -510,13 +510,15 @@ function App() {
             <img 
               src="/assets/you.svg" 
               alt="You" 
-              className="block mx-auto h-auto w-[30px] max-w-[60px] animate-bounce"
+              className="block mx-auto h-auto w-[30px] max-w-full animate-bounce"
             />
-            <img 
-              src="/assets/landingPageGraphic.svg" 
-              alt="Net worth comparison chart" 
-              className="block mx-auto h-auto max-w-[320px] sm:max-w-sm"
-            />
+            <div className="w-full max-w-[375px] mx-auto overflow-x-hidden">
+              <img 
+                src="/assets/landingPageGraphic.svg" 
+                alt="Net worth comparison chart" 
+                className="block mx-auto w-full h-auto max-w-full"
+              />
+            </div>
           </div>
           
           <button 
@@ -552,7 +554,7 @@ function App() {
           <img 
               src="/assets/youIcon.svg" 
               alt="You" 
-              className="w-[30px] h-[30px] mx-auto"
+              className="block mx-auto h-auto w-[30px] max-w-ful"
             />
           <div className="flex space-x-4 mb-6 justify-center">
             <input
