@@ -562,21 +562,21 @@ function App() {
               placeholder="Name"
               value={userData.name}
               onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))}
-              className="flex-1 max-w-[60px] bg-transparent border-b-2 border-white text-white placeholder-brand-white placeholder-opacity-70 py-2 text-base focus:outline-none text-center"
+              className="flex-1 max-w-[60px] bg-transparent border-b border-white text-white placeholder-brand-white placeholder-opacity-70 py-2 text-base focus:outline-none text-center appearance-none focus:border-b-2"
             />
             <input
               type="number"
               placeholder="Age"
               value={userData.age}
               onChange={(e) => setUserData(prev => ({ ...prev, age: e.target.value }))}
-              className="flex-1 max-w-[60px] bg-transparent border-b-2 border-white text-white placeholder-brand-white placeholder-opacity-70 py-2 text-base focus:outline-none text-center"
+              className="flex-1 max-w-[60px] bg-transparent border-b border-white text-white placeholder-brand-white placeholder-opacity-70 py-2 text-base focus:outline-none text-center appearance-none focus:border-b-2"
             />
             <input
               type="number"
               placeholder="Zip"
               value={userData.city}
               onChange={(e) => setUserData(prev => ({ ...prev, city: e.target.value }))}
-              className="flex-1 max-w-[60px] bg-transparent border-b-2 border-white text-white placeholder-brand-white placeholder-opacity-70 py-2 text-base focus:outline-none text-center"
+              className="flex-1 max-w-[60px] bg-transparent border-b border-white text-white placeholder-brand-white placeholder-opacity-70 py-2 text-base focus:outline-none text-center appearance-none focus:border-b-2"
             />
           </div>
           
@@ -682,7 +682,7 @@ function App() {
                     placeholder="Nickname"
                     value={newAccountName}
                     onChange={(e) => setNewAccountName(e.target.value)}
-                    className="w-40 border-b-2 border-brand-black px-3 py-2 text-brand-black text-center placeholder-brand-black text-[14px]"
+                    className="w-40 border-b border-brand-black px-3 py-2 text-brand-black text-center placeholder-brand-black text-[14px] appearance-none focus:outline-none focus:border-b-2"
                   />
                 </div>
                 
@@ -693,7 +693,7 @@ function App() {
                     placeholder="Amount"
                     value={newAccountAmount}
                     onChange={(e) => setNewAccountAmount(e.target.value)}
-                    className="w-40 border-b-2 border-brand-black px-3 py-2 text-brand-black text-center placeholder-brand-black text-[14px]"
+                    className="w-40 border-b border-brand-black px-3 py-2 text-brand-black text-center placeholder-brand-black text-[14px] appearance-none focus:outline-none focus:border-b-2"
                   />
                 </div>
                 
